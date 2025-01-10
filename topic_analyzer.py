@@ -1,8 +1,6 @@
 # topic_analyzer.py
 from sentence_transformers import SentenceTransformer
 from bertopic import BERTopic
-from umap import UMAP
-from hdbscan import HDBSCAN
 from sklearn.feature_extraction.text import CountVectorizer
 import nltk
 from nltk.corpus import stopwords
