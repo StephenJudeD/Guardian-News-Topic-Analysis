@@ -1,4 +1,4 @@
-Guardian News Topic Analysis
+Guardian News Topic Analysis using BerTopic
 ============================
 
 A sophisticated topic analysis tool that extracts, processes, and visualizes news articles from The Guardian using advanced natural language processing techniques. The system employs BERTopic for dynamic topic modeling and provides interactive visualizations through a Dash web interface.
