@@ -1,77 +1,179 @@
-Guardian News Topic Explorer
+Guardian News Topic Analysis
+============================
+
+A sophisticated topic analysis tool that extracts, processes, and visualizes news articles from The Guardian using advanced natural language processing techniques. The system employs BERTopic for dynamic topic modeling and provides interactive visualizations through a Dash web interface.
+
+🌟 Features
+-----------
+
+-   **Real-time Article Fetching**: Automatically retrieves articles from The Guardian's API with customizable date ranges
+-   **Advanced Topic Modeling**: Uses BERT embeddings and BERTopic for state-of-the-art topic analysis
+-   **Interactive Visualizations**:
+    -   Topic clusters and hierarchies
+    -   Temporal topic evolution
+    -   Document embeddings visualization
+    -   Topic probability distributions
+    -   Term importance rankings
+-   **Flexible Date Filtering**: Analyze news trends across custom time periods
+-   **Preprocessing Pipeline**: Robust text cleaning and preparation for analysis
+
+🚀 Getting Started
+------------------
+
+### Prerequisites
+
+bash
+
+Copy
+
+```
+pip install -r requirements.txt
+
+```
+
+### Environment Variables
+
+Create a `.env` file with:
+
+env
+
+Copy
+
+```
+GUARDIAN_API_KEY=your_guardian_api_key
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+
+```
+
+### Running the Application
+
+bash
+
+Copy
+
+```
+python main.py
+
+```
+
+Navigate to `http://localhost:8050` to access the dashboard.
+
+💡 Use Cases
+------------
+
+1.  **News Trend Analysis**
+
+    -   Track emerging topics over time
+    -   Identify trending themes in specific news sections
+    -   Monitor topic evolution and relationships
+2.  **Media Research**
+
+    -   Analyze media coverage patterns
+    -   Study topic distribution across different sections
+    -   Compare narrative changes over time
+3.  **Content Strategy**
+
+    -   Identify underreported topics
+    -   Understand topic relationships
+    -   Track seasonal content patterns
+
+🔄 Adapting to Other Sources
 ----------------------------
 
-This repository contains a Python application that analyzes news articles from The Guardian to identify and visualize key topics and trends.
+The system can be modified to work with other news sources or RSS feeds by:
 
-**Key Features:**
+1.  Creating a new data fetcher class similar to `fetch_guardian_articles_enhanced`
+2.  Implementing the appropriate API/RSS feed parser
+3.  Mapping the source's data structure to the expected DataFrame format:
 
--   **Data Acquisition:**
-    -   Fetches news articles from the Guardian API.
-    -   Implements robust error handling and rate limiting.
-    -   Performs basic data cleaning and preprocessing.
--   **Topic Modeling:**
-    -   Utilizes advanced topic modeling techniques to identify and group related articles.
-    -   Generates human-readable topic labels.
--   **Visualization:**
-    -   Creates interactive visualizations (e.g., word clouds, topic timelines) to:
-        -   Display the most prominent topics.
-        -   Visualize the evolution of topics over time.
-        -   Explore relationships between different topics.
--   **User Interface:**
-    -   Provides a user-friendly interface (potentially using Dash) for:
-        -   Selecting date ranges for analysis.
-        -   Triggering the analysis process.
-        -   Viewing and interacting with the generated visualizations.
+    python
 
-**Installation:**
-
-1.  **Clone the repository:**
-
-    Bash
+    RunCopy
 
     ```
-    git clone <repository_url>
+    {
+        'title': str,
+        'content': str,
+        'section': str,
+        'published': datetime,
+        'wordcount': int,
+        'url': str,
+        'author': str
+    }
 
     ```
 
-2.  **Create a virtual environment (recommended):**
+### Example for RSS Integration:
 
-    Bash
+python
 
-    ```
-    python3 -m venv venv
-    source venv/bin/activate
+RunCopy
 
-    ```
+```
+import feedparser
 
-4.  **Install dependencies:**
+def fetch_rss_feed(url, days_back=30):
+    feed = feedparser.parse(url)
+    articles = []
 
-    Bash
+    for entry in feed.entries:
+        articles.append({
+            'title': entry.title,
+            'content': entry.description,
+            'published': entry.published,
+            # Map other fields accordingly
+        })
 
-    ```
-    pip install -r requirements.txt
+    return pd.DataFrame(articles)
 
-    ```
+```
 
-**Configuration:**
+📊 Visualization Examples
+-------------------------
 
--   **Obtain a Guardian API key** from <https://open-platform.theguardian.com/documentation/>.
--   **Update the configuration file** with your API key.
+The dashboard provides multiple interactive visualizations:
 
-**Usage:**
+-   Topic Clusters
+-   Hierarchical Topic Relationships
+-   Topic Evolution Over Time
+-   Document Embeddings
+-   Term Importance
+-   Topic Distribution
 
-1.  **Start the application:**
+🛠 Technical Architecture
+-------------------------
 
-    Bash
+-   **Frontend**: Dash/Plotly for interactive visualizations
+-   **Backend**: Flask server with Python processing
+-   **NLP Pipeline**:
+    -   BERT embeddings for semantic understanding
+    -   BERTopic for dynamic topic modeling
+    -   UMAP for dimensionality reduction
+    -   HDBSCAN for clustering
 
-    ```
-    python app.py
+📝 Future Improvements
+----------------------
 
-    ```
+-   [ ]  Add support for multiple news sources
+-   [ ]  Implement real-time topic updating
+-   [ ]  Add sentiment analysis
+-   [ ]  Enable topic comparison across sources
+-   [ ]  Add export functionality for analysis results
+-   [ ]  Implement user-defined topic labeling
 
-2.  **Access the web interface** in your browser.
+🤝 Contributing
+---------------
 
-**Deployment:**
+Contributions are welcome! Please feel free to submit a Pull Request.
 
--   This application can be deployed on various cloud platforms (e.g., Heroku, AWS, Google Cloud).
--   Refer to the platform's documentation for specific deployment instructions.
+📄 License
+----------
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+🙏 Acknowledgments
+------------------
+
+-   The Guardian for their API
+-   BERTopic developers
+-   Sentence-Transformers team
